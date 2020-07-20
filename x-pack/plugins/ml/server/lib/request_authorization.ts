@@ -7,9 +7,7 @@
 import { KibanaRequest } from 'kibana/server';
 
 export function getAuthorizationHeader(request: KibanaRequest) {
-  return request.headers.authorization === undefined
-    ? {}
-    : {
-        headers: { 'es-secondary-authorization': request.headers.authorization },
-      };
+  return {
+    headers: { 'es-secondary-authorization': request.headers.authorization },
+  };
 }
