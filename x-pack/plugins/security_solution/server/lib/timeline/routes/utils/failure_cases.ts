@@ -3,6 +3,7 @@
  * or more contributor license agreements. Licensed under the Elastic License;
  * you may not use this file except in compliance with the Elastic License.
  */
+
 import { isEmpty } from 'lodash/fp';
 import {
   TimelineSavedObject,
@@ -77,7 +78,10 @@ const commonUpdateTemplateTimelineCheck = (
   existTemplateTimeline: TimelineSavedObject | null
 ) => {
   if (isHandlingTemplateTimeline) {
-    if (existTimeline != null && timelineType !== existTimeline.timelineType) {
+    if (
+      (existTimeline != null && timelineType !== existTimeline.timelineType) ||
+      (existTemplateTimeline != null && timelineType !== existTemplateTimeline.timelineType)
+    ) {
       return {
         body: NOT_ALLOW_UPDATE_TIMELINE_TYPE_ERROR_MESSAGE,
         statusCode: 403,
@@ -85,8 +89,8 @@ const commonUpdateTemplateTimelineCheck = (
     }
 
     if (existTemplateTimeline == null && templateTimelineVersion != null) {
-      // template timeline !exists
-      // Throw error to create template timeline in patch
+      // timeline template !exists
+      // Throw error to create timeline template in patch
       return {
         body: UPDATE_TEMPLATE_TIMELINE_ERROR_MESSAGE,
         statusCode: 405,
@@ -98,18 +102,14 @@ const commonUpdateTemplateTimelineCheck = (
       existTemplateTimeline != null &&
       existTimeline.savedObjectId !== existTemplateTimeline.savedObjectId
     ) {
-      // Throw error you can not have a no matching between your timeline and your template timeline during an update
+      // Throw error you can not have a no matching between your timeline and your timeline template during an update
       return {
         body: NO_MATCH_ID_ERROR_MESSAGE,
         statusCode: 409,
       };
     }
 
-    if (
-      existTemplateTimeline != null &&
-      existTemplateTimeline.templateTimelineVersion == null &&
-      existTemplateTimeline.version !== version
-    ) {
+    if (existTemplateTimeline != null && existTemplateTimeline.version !== version) {
       // throw error 409 conflict timeline
       return {
         body: NO_MATCH_VERSION_ERROR_MESSAGE,
@@ -195,7 +195,7 @@ const createTemplateTimelineCheck = (
   existTemplateTimeline: TimelineSavedObject | null
 ) => {
   if (isHandlingTemplateTimeline && existTemplateTimeline != null) {
-    // Throw error to create template timeline in patch
+    // Throw error to create timeline template in patch
     return {
       body: CREATE_TEMPLATE_TIMELINE_ERROR_MESSAGE,
       statusCode: 405,
@@ -230,12 +230,6 @@ export const checkIsUpdateViaImportFailureCases = (
       };
     }
   } else {
-    if (existTemplateTimeline != null && timelineType !== existTemplateTimeline?.timelineType) {
-      return {
-        body: NOT_ALLOW_UPDATE_TIMELINE_TYPE_ERROR_MESSAGE,
-        statusCode: 403,
-      };
-    }
     const isStatusValid =
       ((existTemplateTimeline?.status == null ||
         existTemplateTimeline?.status === TimelineStatus.active) &&
@@ -268,7 +262,7 @@ export const checkIsUpdateViaImportFailureCases = (
       existTemplateTimeline.templateTimelineVersion != null &&
       existTemplateTimeline.templateTimelineVersion >= templateTimelineVersion
     ) {
-      // Throw error you can not update a template timeline version with an old version
+      // Throw error you can not update a timeline template version with an old version
       return {
         body: TEMPLATE_TIMELINE_VERSION_CONFLICT_MESSAGE,
         statusCode: 409,
@@ -369,7 +363,7 @@ export const checkIsCreateViaImportFailureCases = (
     }
   } else {
     if (existTemplateTimeline != null) {
-      // Throw error to create template timeline in patch
+      // Throw error to create timeline template in patch
       return {
         body: getImportExistingTimelineError(existTemplateTimeline.savedObjectId),
         statusCode: 405,

@@ -204,15 +204,17 @@ def bash(script, label) {
 }
 
 def doSetup() {
-  retryWithDelay(2, 15) {
-    try {
-      runbld("./test/scripts/jenkins_setup.sh", "Setup Build Environment and Dependencies")
-    } catch (ex) {
+  githubPr.sendCommentOnError {
+    retryWithDelay(2, 15) {
       try {
-        // Setup expects this directory to be missing, so we need to remove it before we do a retry
-        bash("rm -rf ../elasticsearch", "Remove elasticsearch sibling directory, if it exists")
-      } finally {
-        throw ex
+        runbld("./test/scripts/jenkins_setup.sh", "Setup Build Environment and Dependencies")
+      } catch (ex) {
+        try {
+          // Setup expects this directory to be missing, so we need to remove it before we do a retry
+          bash("rm -rf ../elasticsearch", "Remove elasticsearch sibling directory, if it exists")
+        } finally {
+          throw ex
+        }
       }
     }
   }
@@ -237,7 +239,7 @@ def runErrorReporter() {
   bash(
     """
       source src/dev/ci_setup/setup_env.sh
-      node scripts/report_failed_tests ${dryRun}
+      node scripts/report_failed_tests ${dryRun} target/junit/**/*.xml
     """,
     "Report failed tests, if necessary"
   )
