@@ -23,6 +23,7 @@ import { parseSourceOfTruth } from './parse';
 import { sourceOfTruth as sot } from './owners_source_of_truth';
 import { flush } from './flush';
 import { ToolingLog } from '../tooling_log';
+import { flatten } from './flatten';
 
 const codeownersPath = process.env.CODEOWNERS_PATH;
 const description = `
@@ -34,7 +35,14 @@ Create .github/CODEOWNERS file from authoritative source
 export const buildPathsMap = () => parseSourceOfTruth(sot as []);
 
 export const defineCodeOwners = () => {
-  run(({ log }) => flush(codeownersPath as PathLike)(log as ToolingLog)(buildPathsMap()), {
-    description,
-  });
+  run(
+    ({ log }) => {
+      flatten(sot as []);
+
+      flush(codeownersPath as PathLike)(log as ToolingLog)(buildPathsMap());
+    },
+    {
+      description,
+    }
+  );
 };
