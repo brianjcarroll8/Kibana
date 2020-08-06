@@ -18,33 +18,38 @@
  */
 
 import { PathLike } from 'fs';
-import { run } from '../run';
-import { parseSourceOfTruth } from './parse';
-import { sourceOfTruth as sot } from './owners_source_of_truth';
-import { flush } from './flush';
-import { ToolingLog } from '../tooling_log';
-import { flatten } from './flatten';
-import { createConfig } from './create_config'
+import { createWriteStream, WriteStream } from 'fs';
+import { from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-const codeownersPath = process.env.CODEOWNERS_PATH;
-const description = `
 
-Create .github/CODEOWNERS file from authoritative source
 
-`;
 
-export const buildPathsMap = () => parseSourceOfTruth(sot as []);
+export const createConfig = (path: PathLike) => (sot: []) => {
+  const file: WriteStream = createWriteStream(path);
+  const recordToFile = record(file);
 
-export const defineCodeOwners = () => {
-  run(
-    ({ log }) => {
-      // flatten(sot as []);
-      createConfig('ownership_config')(sot as [])
-
-      // flush(codeownersPath as PathLike)(log as ToolingLog)(buildPathsMap());
-    },
-    {
-      description,
-    }
-  );
+  from(sot)
+  .pipe(map(convert))
+    .subscribe(recordToFile, x => console.error(x), () => file.end())
 };
+
+function record (file) {
+  return x => {
+    const out = JSON.stringify(x, null, 2)
+    file.write(`${out},\n`, 'utf8');
+  }
+}
+
+function convert (x) {
+  const {pathPatterns, githubHandle } = x
+
+
+  const res = {
+    coverageTeam: githubHandle.replace('elastic/', ''),
+    approvers: [`@${githubHandle}`],
+    files: [...pathPatterns]
+  };
+
+  return res;
+}

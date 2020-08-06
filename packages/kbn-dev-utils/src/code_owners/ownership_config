@@ -1,0 +1,605 @@
+{
+  "coverageTeam": "kibana-app",
+  "approvers": [
+    "@elastic/kibana-app"
+  ],
+  "files": [
+    "/x-pack/plugins/dashboard_enhanced/",
+    "/x-pack/plugins/discover_enhanced/",
+    "/x-pack/plugins/lens/",
+    "/x-pack/plugins/graph/",
+    "/src/legacy/core_plugins/kibana/public/local_application_service/",
+    "/src/plugins/dashboard/",
+    "/src/plugins/discover/",
+    "/src/plugins/input_control_vis/",
+    "/src/plugins/kibana_legacy/",
+    "/src/plugins/vis_default_editor/",
+    "/src/plugins/vis_type_markdown/",
+    "/src/plugins/vis_type_metric/",
+    "/src/plugins/vis_type_table/",
+    "/src/plugins/vis_type_tagcloud/",
+    "/src/plugins/vis_type_timelion/",
+    "/src/plugins/vis_type_timeseries/",
+    "/src/plugins/vis_type_vega/",
+    "/src/plugins/vis_type_vislib/",
+    "/src/plugins/vis_type_xy/",
+    "/src/plugins/vis_type",
+    "/src/plugins/visualize/",
+    "/src/legacy/core_plugins/kibana/",
+    "/src/legacy/core_plugins/kibana/common/utils",
+    "/src/legacy/core_plugins/kibana/migrations",
+    "/src/legacy/core_plugins/kibana/public",
+    "/src/legacy/core_plugins/kibana/public/dashboard/",
+    "/src/legacy/core_plugins/kibana/public/dev_tools/",
+    "/src/legacy/core_plugins/kibana/public/discover/",
+    "/src/legacy/core_plugins/kibana/public/local_application_service/",
+    "/src/legacy/core_plugins/console_legacy",
+    "/src/legacy/core_plugins/input_control_vis",
+    "/src/legacy/core_plugins/timelion",
+    "/src/legacy/core_plugins/vis_type_tagcloud",
+    "/src/legacy/core_plugins/vis_type_vega",
+    "/src/legacy/core_plugins/vis_type_vislib/",
+    "/src/legacy/server/sample_data/",
+    "/src/legacy/server/url_shortening/",
+    "/src/legacy/ui/public/state_management",
+    "/src/plugins/charts/public/static/color_maps",
+    "/src/plugins/index_pattern_management/public",
+    "/src/plugins/input_control_vis/",
+    "/src/plugins/kibana_legacy/",
+    "/src/plugins/timelion",
+    "/x-pack/legacy/plugins/dashboard_mode/",
+    "/x-pack/plugins/dashboard_mode",
+    "/x-pack/plugins/lens/"
+  ]
+},
+{
+  "coverageTeam": "kibana-core-ui",
+  "approvers": [
+    "@elastic/kibana-core-ui"
+  ],
+  "files": [
+    "/src/legacy/core_plugins/kibana/public/home",
+    "/src/legacy/core_plugins/kibana/public/home/np_ready/",
+    "/src/legacy/core_plugins/newsfeed",
+    "/src/plugins/newsfeed",
+    "/src/plugins/home/public",
+    "/src/plugins/home/server/services/",
+    "/src/plugins/home/"
+  ]
+},
+{
+  "coverageTeam": "kibana-gis",
+  "approvers": [
+    "@elastic/kibana-gis"
+  ],
+  "files": [
+    "/src/legacy/core_plugins/region_map",
+    "/src/legacy/core_plugins/tile_map",
+    "/src/plugins/maps_legacy/",
+    "/x-pack/legacy/plugins/maps/",
+    "/x-pack/plugins/maps/",
+    "/x-pack/test/api_integration/apis/maps/",
+    "/x-pack/test/functional/apps/maps/",
+    "/x-pack/test/functional/es_archives/maps/",
+    "/x-pack/test/visual_regression/tests/maps/index.js",
+    "/x-pack/plugins/file_upload",
+    "/x-pack/plugins/maps_legacy_licensing"
+  ]
+},
+{
+  "coverageTeam": "maps",
+  "approvers": [
+    "@elastic/maps"
+  ],
+  "files": [
+    "/src/plugins/home/server/tutorials"
+  ]
+},
+{
+  "coverageTeam": "ingest-management",
+  "approvers": [
+    "@elastic/ingest-management"
+  ],
+  "files": [
+    "/x-pack/legacy/plugins/ingest_manager/",
+    "/x-pack/plugins/ingest_manager/"
+  ]
+},
+{
+  "coverageTeam": "ml-ui",
+  "approvers": [
+    "@elastic/ml-ui"
+  ],
+  "files": [
+    "/x-pack/legacy/plugins/ml/",
+    "/x-pack/plugins/ml/",
+    "/x-pack/plugins/transform/"
+  ]
+},
+{
+  "coverageTeam": "stack-monitoring-ui",
+  "approvers": [
+    "@elastic/stack-monitoring-ui"
+  ],
+  "files": [
+    "/x-pack/legacy/plugins/monitoring/",
+    "/x-pack/plugins/monitoring"
+  ]
+},
+{
+  "coverageTeam": "kibana-reporting",
+  "approvers": [
+    "@elastic/kibana-reporting"
+  ],
+  "files": [
+    "/x-pack/legacy/plugins/reporting",
+    "/x-pack/plugins/reporting"
+  ]
+},
+{
+  "coverageTeam": "canvas",
+  "approvers": [
+    "@elastic/canvas"
+  ],
+  "files": [
+    "/src/plugins/kibana_react/public/code_editor",
+    "/x-pack/legacy/plugins/canvas/",
+    "/x-pack/plugins/canvas/"
+  ]
+},
+{
+  "coverageTeam": "beats",
+  "approvers": [
+    "@elastic/beats"
+  ],
+  "files": [
+    "/x-pack/legacy/plugins/beats_management/",
+    "/x-pack/plugins/beats_management/"
+  ]
+},
+{
+  "coverageTeam": "code",
+  "approvers": [
+    "@elastic/code"
+  ],
+  "files": [
+    "/x-pack/plugins/code/"
+  ]
+},
+{
+  "coverageTeam": "logs-metrics-ui",
+  "approvers": [
+    "@elastic/logs-metrics-ui"
+  ],
+  "files": [
+    "/x-pack/legacy/plugins/infra/",
+    "/x-pack/plugins/infra/"
+  ]
+},
+{
+  "coverageTeam": "uptime",
+  "approvers": [
+    "@elastic/uptime"
+  ],
+  "files": [
+    "/x-pack/legacy/plugins/uptime",
+    "/x-pack/plugins/uptime"
+  ]
+},
+{
+  "coverageTeam": "logstash",
+  "approvers": [
+    "@elastic/logstash"
+  ],
+  "files": [
+    "/x-pack/plugins/logstash"
+  ]
+},
+{
+  "coverageTeam": "pulse",
+  "approvers": [
+    "@elastic/pulse"
+  ],
+  "files": [
+    "/src/legacy/core_plugins/ui_metric/",
+    "/src/plugins/kibana_usage_collection/",
+    "/src/plugins/telemetry",
+    "/src/plugins/usage_collection/",
+    "/x-pack/plugins/oss_telemetry/",
+    "/x-pack/plugins/telemetry_collection_xpack/",
+    "/packages/kbn-analytics/"
+  ]
+},
+{
+  "coverageTeam": "kibana-app-arch",
+  "approvers": [
+    "@elastic/kibana-app-arch"
+  ],
+  "files": [
+    "/examples/bfetch_explorer/",
+    "/examples/dashboard_embeddable_examples/",
+    "/examples/demo_search/",
+    "/examples/developer_examples/",
+    "/examples/embeddable_examples/",
+    "/examples/embeddable_explorer/",
+    "/examples/state_container_examples/",
+    "/examples/ui_actions_examples/",
+    "/examples/ui_actions_explorer/",
+    "/examples/url_generators_examples/",
+    "/examples/url_generators_explorer/",
+    "/packages/elastic-datemath/",
+    "/packages/kbn-interpreter/",
+    "/src/plugins/advanced_settings/",
+    "/src/plugins/bfetch/",
+    "/src/plugins/data/",
+    "/src/plugins/embeddable/",
+    "/src/plugins/expressions/",
+    "/src/plugins/inspector/",
+    "/src/plugins/kibana_react/",
+    "/src/plugins/kibana_utils/",
+    "/src/plugins/management/",
+    "/src/plugins/navigation/",
+    "/src/plugins/share/",
+    "/src/plugins/ui_actions/",
+    "/src/plugins/visualizations/",
+    "/x-pack/examples/ui_actions_enhanced_examples/",
+    "/x-pack/plugins/data_enhanced/",
+    "/x-pack/plugins/embeddable_enhanced/",
+    "/x-pack/plugins/ui_actions_enhanced/",
+    "/src/legacy/core_plugins/kibana/public/management/",
+    "/src/legacy/core_plugins/kibana/server/routes/api/management/",
+    "/src/legacy/core_plugins/embeddable_api/",
+    "/src/legacy/core_plugins/interpreter/",
+    "/src/legacy/core_plugins/kibana_react/",
+    "/src/legacy/core_plugins/status_page/public",
+    "/src/legacy/server/index_patterns/",
+    "/src/legacy/ui/public/field_editor",
+    "/src/legacy/ui/public/management",
+    "/src/plugins/advanced_settings/",
+    "/src/plugins/bfetch/",
+    "/src/plugins/charts/",
+    "/src/plugins/index_pattern_management/public/service",
+    "/src/plugins/inspector/",
+    "/src/plugins/saved_objects/",
+    "/src/plugins/share/",
+    "/src/plugins/vis_default_editor",
+    "/x-pack/plugins/advanced_ui_actions/",
+    "/x-pack/plugins/drilldowns/",
+    "/packages/kbn-interpreter/"
+  ]
+},
+{
+  "coverageTeam": "apm-ui",
+  "approvers": [
+    "@elastic/apm-ui"
+  ],
+  "files": [
+    "/x-pack/plugins/apm/",
+    "/x-pack/test/functional/apps/apm/",
+    "/src/legacy/core_plugins/apm_oss/",
+    "/src/plugins/apm_oss/",
+    "/src/legacy/core_plugins/apm_oss/",
+    "/src/legacy/ui/public/apm",
+    "/src/plugins/apm_oss/",
+    "/x-pack/legacy/plugins/apm/",
+    "/x-pack/plugins/observability/",
+    "/src/apm.js"
+  ]
+},
+{
+  "coverageTeam": "watson",
+  "approvers": [
+    "@watson"
+  ],
+  "files": [
+    "/src/apm.js"
+  ]
+},
+{
+  "coverageTeam": "vigneshshanmugam",
+  "approvers": [
+    "@vigneshshanmugam"
+  ],
+  "files": [
+    "/src/apm.js"
+  ]
+},
+{
+  "coverageTeam": "kibana-qa",
+  "approvers": [
+    "@elastic/kibana-qa"
+  ],
+  "files": [
+    "/src/dev/code_coverage/",
+    "/test/functional/services/common/",
+    "/test/functional/services/lib/",
+    "/test/functional/services/remote/"
+  ]
+},
+{
+  "coverageTeam": "kibana-operations",
+  "approvers": [
+    "@elastic/kibana-operations"
+  ],
+  "files": [
+    "/src/dev/",
+    "/src/setup_node_env/",
+    "/src/optimize/",
+    "/packages/*eslint*/",
+    "/packages/*babel*/",
+    "/packages/kbn-dev-utils*/",
+    "/packages/kbn-es/",
+    "/packages/kbn-optimizer/",
+    "/packages/kbn-pm/",
+    "/packages/kbn-test/",
+    "/packages/kbn-ui-shared-deps/",
+    "/packages/kbn-es-archiver/",
+    "/src/legacy/server/keystore/",
+    "/src/legacy/server/pid/",
+    "/src/legacy/server/sass/",
+    "/src/legacy/server/utils/",
+    "/src/legacy/server/warnings/",
+    "/.ci/es-snapshots/",
+    "/vars/",
+    "/src/legacy/server/pid/",
+    "/src/legacy/server/utils/",
+    "/packages/kbn-babel",
+    "/packages/kbn-eslint",
+    "/packages/kbn-expect",
+    "/packages/kbn-pm/",
+    "/packages/kbn-test-subj-selector/",
+    "/src/test_utils/"
+  ]
+},
+{
+  "coverageTeam": "kibana-platform",
+  "approvers": [
+    "@elastic/kibana-platform"
+  ],
+  "files": [
+    "/src/core/",
+    "/config/kibana.yml",
+    "/x-pack/plugins/features/",
+    "/x-pack/plugins/licensing/",
+    "/x-pack/plugins/global_search/",
+    "/x-pack/plugins/cloud/",
+    "/x-pack/test/saved_objects_field_count/",
+    "/packages/kbn-config-schema/",
+    "/src/legacy/server/config/",
+    "/src/legacy/server/http/",
+    "/src/legacy/server/logging/",
+    "/src/legacy/server/saved_objects/ ",
+    "/src/legacy/server/status/",
+    "/src/plugins/status_page/",
+    "/src/plugins/saved_objects_management/",
+    "/src/dev/run_check_published_api_changes.ts",
+    "/src/core/server/csp/",
+    "/src/legacy/core_plugins/kibana/server/lib",
+    "/src/legacy/core_plugins/kibana/server/lib/management/saved_objects",
+    "/src/legacy/core_plugins/kibana/server/routes/api/import/",
+    "/src/legacy/core_plugins/kibana/server/routes/api/export/",
+    "/src/legacy/core_plugins/elasticsearch",
+    "/src/legacy/core_plugins/testbed",
+    "/src/legacy/server/config/",
+    "/src/legacy/server/http/",
+    "/src/legacy/server/status/",
+    "/src/legacy/ui/public/new_platform",
+    "/src/legacy/ui/public/plugin_discovery",
+    "/src/legacy/ui/public/chrome",
+    "/src/legacy/ui/public/notify",
+    "/src/legacy/ui/public/documentation_links",
+    "/src/legacy/ui/public/autoload",
+    "/src/plugins/legacy_export/",
+    "/src/plugins/status_page/",
+    "/src/plugins/testbed/server/",
+    "/x-pack/legacy/plugins/xpack_main/server/",
+    "/x-pack/legacy/server/lib/",
+    "/x-pack/plugins/cloud/",
+    "/x-pack/plugins/features/",
+    "/x-pack/plugins/global_search"
+  ]
+},
+{
+  "coverageTeam": "kibana-localization",
+  "approvers": [
+    "@elastic/kibana-localization"
+  ],
+  "files": [
+    "/src/dev/i18n/",
+    "/src/legacy/server/i18n/",
+    "/src/core/public/i18n/",
+    "/packages/kbn-i18n/",
+    "/src/legacy/server/i18n/",
+    "/x-pack/plugins/translations/",
+    "/packages/kbn-i18n/"
+  ]
+},
+{
+  "coverageTeam": "kibana-telemetry",
+  "approvers": [
+    "@elastic/kibana-telemetry"
+  ],
+  "files": [
+    "/packages/kbn-analytics/",
+    "/packages/kbn-telemetry-tools/",
+    "/src/plugins/kibana_usage_collection/",
+    "/src/plugins/newsfeed/",
+    "/src/plugins/telemetry/",
+    "/src/plugins/telemetry_collection_manager/",
+    "/src/plugins/telemetry_management_section/",
+    "/src/plugins/usage_collection/",
+    "/x-pack/plugins/telemetry_collection_xpack/",
+    "/.telemetryrc.json",
+    "/x-pack/.telemetryrc.json",
+    "/src/plugins/telemetry/schema/legacy_oss_plugins.json",
+    "/src/plugins/telemetry/schema/oss_plugins.json",
+    "/x-pack/plugins/telemetry_collection_xpack/schema/xpack_plugins.json"
+  ]
+},
+{
+  "coverageTeam": "kibana-alerting-services",
+  "approvers": [
+    "@elastic/kibana-alerting-services"
+  ],
+  "files": [
+    "/x-pack/plugins/alerts/",
+    "/x-pack/plugins/actions/",
+    "/x-pack/plugins/event_log/",
+    "/x-pack/plugins/task_manager/",
+    "/x-pack/test/alerting_api_integration/",
+    "/x-pack/test/plugin_api_integration/plugins/task_manager/",
+    "/x-pack/test/plugin_api_integration/test_suites/task_manager/",
+    "/x-pack/plugins/triggers_actions_ui/",
+    "/x-pack/test/functional_with_es_ssl/apps/triggers_actions_ui/",
+    "/x-pack/test/functional_with_es_ssl/fixtures/plugins/alerts/",
+    "/x-pack/legacy/plugins/actions/",
+    "/x-pack/legacy/plugins/alerting/",
+    "/x-pack/legacy/plugins/task_manager",
+    "/x-pack/legacy/plugins/triggers_actions_ui/",
+    "/x-pack/plugins/alerting_builtins"
+  ]
+},
+{
+  "coverageTeam": "kibana-design",
+  "approvers": [
+    "@elastic/kibana-design"
+  ],
+  "files": [
+    "**/*.scss",
+    "/packages/kbn-ui-framework/"
+  ]
+},
+{
+  "coverageTeam": "app-search-frontend",
+  "approvers": [
+    "@elastic/app-search-frontend"
+  ],
+  "files": [
+    "/x-pack/plugins/enterprise_search/",
+    "/x-pack/test/functional_enterprise_search/"
+  ]
+},
+{
+  "coverageTeam": "workplace-search-frontend",
+  "approvers": [
+    "@elastic/workplace-search-frontend"
+  ],
+  "files": [
+    "/x-pack/plugins/enterprise_search/",
+    "/x-pack/test/functional_enterprise_search/"
+  ]
+},
+{
+  "coverageTeam": "ent-search-design",
+  "approvers": [
+    "@elastic/ent-search-design"
+  ],
+  "files": [
+    "/x-pack/plugins/enterprise_search/**/*.scss"
+  ]
+},
+{
+  "coverageTeam": "es-ui",
+  "approvers": [
+    "@elastic/es-ui"
+  ],
+  "files": [
+    "/src/plugins/dev_tools/",
+    "/src/plugins/console/",
+    "/src/plugins/es_ui_shared/",
+    "/x-pack/legacy/plugins/cross_cluster_replication/",
+    "/x-pack/plugins/index_lifecycle_management/",
+    "/x-pack/legacy/plugins/index_management/",
+    "/x-pack/legacy/plugins/license_management/",
+    "/x-pack/legacy/plugins/rollup/",
+    "/x-pack/legacy/plugins/snapshot_restore/",
+    "/x-pack/legacy/plugins/upgrade_assistant/",
+    "/x-pack/plugins/console_extensions/",
+    "/x-pack/plugins/es_ui_shared/",
+    "/x-pack/plugins/grokdebugger/",
+    "/x-pack/plugins/index_management/",
+    "/x-pack/plugins/license_management/",
+    "/x-pack/plugins/painless_lab/",
+    "/x-pack/plugins/remote_clusters/",
+    "/x-pack/plugins/rollup/",
+    "/x-pack/plugins/searchprofiler/",
+    "/x-pack/plugins/snapshot_restore/",
+    "/x-pack/plugins/upgrade_assistant/",
+    "/x-pack/plugins/watcher/",
+    "/x-pack/plugins/ingest_pipelines/",
+    "/x-pack/legacy/plugins/rollup/",
+    "/x-pack/legacy/server/lib/create_router/",
+    "/x-pack/legacy/server/lib/check_license/",
+    "/x-pack/plugins/console_extensions/",
+    "/x-pack/plugins/cross_cluster_replication/",
+    "/x-pack/plugins/es_ui_shared/"
+  ]
+},
+{
+  "coverageTeam": "endpoint-app-team",
+  "approvers": [
+    "@elastic/endpoint-app-team"
+  ],
+  "files": [
+    "/x-pack/plugins/endpoint/",
+    "/x-pack/test/api_integration/apis/endpoint/",
+    "/x-pack/test/endpoint_api_integration_no_ingest/",
+    "/x-pack/test/security_solution_endpoint/",
+    "/x-pack/test/functional/es_archives/endpoint/",
+    "/x-pack/test/plugin_functional/plugins/resolver_test/",
+    "/x-pack/test/plugin_functional/test_suites/resolver/",
+    "/x-pack/plugins/security_solution/",
+    "/x-pack/test/detection_engine_api_integration",
+    "/x-pack/test/api_integration/apis/security_solution",
+    "/x-pack/plugins/case",
+    "/x-pack/plugins/lists"
+  ]
+},
+{
+  "coverageTeam": "kibana-security",
+  "approvers": [
+    "@elastic/kibana-security"
+  ],
+  "files": [
+    "/src/core/server/csp/",
+    "/x-pack/legacy/plugins/security/",
+    "/x-pack/legacy/plugins/spaces/",
+    "/x-pack/plugins/spaces/",
+    "/x-pack/plugins/encrypted_saved_objects/",
+    "/x-pack/plugins/security/",
+    "/x-pack/test/api_integration/apis/security/",
+    "/src/legacy/ui/public/capabilities"
+  ]
+},
+{
+  "coverageTeam": "siem",
+  "approvers": [
+    "@elastic/siem"
+  ],
+  "files": [
+    "/x-pack/plugins/endpoint/",
+    "/x-pack/test/api_integration/apis/endpoint/",
+    "/x-pack/test/endpoint_api_integration_no_ingest/",
+    "/x-pack/test/security_solution_endpoint/",
+    "/x-pack/test/functional/es_archives/endpoint/",
+    "/x-pack/test/plugin_functional/plugins/resolver_test/",
+    "/x-pack/test/plugin_functional/test_suites/resolver/",
+    "/x-pack/plugins/security_solution/",
+    "/x-pack/test/detection_engine_api_integration",
+    "/x-pack/test/api_integration/apis/security_solution",
+    "/x-pack/plugins/case",
+    "/x-pack/plugins/lists",
+    "/x-pack/legacy/plugins/siem/",
+    "/x-pack/plugins/siem/",
+    "/x-pack/plugins/security_solution/"
+  ]
+},
+{
+  "coverageTeam": "security-intelligence-analytics",
+  "approvers": [
+    "@elastic/security-intelligence-analytics"
+  ],
+  "files": [
+    "/x-pack/plugins/security_solution/server/lib/detection_engine/rules/prepackaged_rules"
+  ]
+},
