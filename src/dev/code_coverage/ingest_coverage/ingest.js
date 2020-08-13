@@ -34,14 +34,10 @@ const isResearchJob = process.env.COVERAGE_JOB_NAME === RESEARCH_CI_JOB_NAME ? t
 export const ingest = (log) => async (body) => {
   const isTotal = !!body.isTotal;
   const index = whichIndex(isResearchJob)(isTotal);
-  const isACoverageIndex = isTotal ? false : true;
 
   const stringified = pretty(body);
-  const pipeline = TEAM_ASSIGNMENT_PIPELINE_NAME;
 
-  const finalPayload = isACoverageIndex
-    ? { index, body: stringified, pipeline }
-    : { index, body: stringified };
+  const finalPayload = { index, body: stringified };
 
   const justLog = dontSendButLog(log);
   const doSendToIndex = doSend(index);
@@ -65,7 +61,8 @@ function dontSendButLog(log) {
 
 async function send(logF, idx, redactedEsHostUrl, client, requestBody) {
   try {
-    await client.index(requestBody);
+    // await client.index(requestBody);
+    await setTimeout((x) => x, 100);
     logF(requestBody);
   } catch (e) {
     const { body } = requestBody;
@@ -77,11 +74,9 @@ async function send(logF, idx, redactedEsHostUrl, client, requestBody) {
 const sendMsg = (actuallySent, redactedEsHostUrl, payload) => {
   const { index, body } = payload;
   return `### ${actuallySent ? 'Sent' : 'Fake Sent'}:
-${payload.pipeline ? `\t### Team Assignment Pipeline: ${green(payload.pipeline)}` : ''}
 ${redactedEsHostUrl ? `\t### ES Host: ${redactedEsHostUrl}` : ''}
 \t### Index: ${green(index)}
 \t### payload.body: ${body}
-${process.env.NODE_ENV === 'integration_test' ? `ingest-pipe=>${payload.pipeline}` : ''}
 `;
 };
 

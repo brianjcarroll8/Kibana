@@ -27,19 +27,24 @@ export STATIC_SITE_URL_BASE
 DELAY=100
 export DELAY
 
+TEAM_ASSIGN_PATH=src/dev/code_coverage/ingest_coverage/team_assignment/team_assignments.txt
+
+# Build team assignments dat file
+node scripts/generate_team_assignments.js --dest $TEAM_ASSIGN_PATH
+
 for x in jest functional; do
   echo "### Ingesting coverage for ${x}"
 
   COVERAGE_SUMMARY_FILE=target/kibana-coverage/${x}-combined/coverage-summary.json
 
-  node scripts/ingest_coverage.js --verbose --path ${COVERAGE_SUMMARY_FILE} --vcsInfoPath ./VCS_INFO.txt
+  node scripts/ingest_coverage.js --verbose --path ${COVERAGE_SUMMARY_FILE} --vcsInfoPath ./VCS_INFO.txt --teamAssignments $TEAM_ASSIGN_PATH
 done
 
 # Need to override COVERAGE_INGESTION_KIBANA_ROOT since mocha json file has original intake worker path
 COVERAGE_SUMMARY_FILE=target/kibana-coverage/mocha-combined/coverage-summary.json
 export COVERAGE_INGESTION_KIBANA_ROOT=/dev/shm/workspace/kibana
 
-node scripts/ingest_coverage.js --verbose --path ${COVERAGE_SUMMARY_FILE} --vcsInfoPath ./VCS_INFO.txt
+node scripts/ingest_coverage.js --verbose --path ${COVERAGE_SUMMARY_FILE} --vcsInfoPath ./VCS_INFO.txt --teamAssignments $TEAM_ASSIGN_PATH
 
 echo "###  Ingesting Code Coverage - Complete"
 echo ""
