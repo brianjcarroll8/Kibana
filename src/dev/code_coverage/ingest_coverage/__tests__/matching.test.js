@@ -61,6 +61,9 @@ describe(`Matching fns`, () => {
       const actual = rootMatch(2)(assignments())(obj);
       expect(actual).to.be('kibana-platform');
     });
+    describe(`with globbing`, () => {
+
+    });
   });
 });
 

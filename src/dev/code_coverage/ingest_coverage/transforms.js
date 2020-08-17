@@ -99,7 +99,7 @@ export const coveredFilePath = (obj) => {
 };
 
 // Check for:
-// 1. Exact match
+// DONE-ISH 1. Exact match
 // DONE-ISH 2. Partial match...root(s) match
 // 3. Glob match
 export const teamAssignment = (teamAssignments) => (obj) => {
