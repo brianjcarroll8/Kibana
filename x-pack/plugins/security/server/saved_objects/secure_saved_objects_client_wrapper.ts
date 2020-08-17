@@ -136,7 +136,10 @@ export class SecureSavedObjectsClientWrapper implements SavedObjectsClientContra
       throw error;
     }
 
-    auditor.add(savedObjectCreateEvent, { action: 'saved_object_bulk_create', objects });
+    auditor.add(savedObjectCreateEvent, {
+      action: 'saved_object_bulk_create',
+      objects: response.saved_objects,
+    });
 
     return await this.redactSavedObjectsNamespaces(response);
   }
@@ -188,7 +191,11 @@ export class SecureSavedObjectsClientWrapper implements SavedObjectsClientContra
 
       response = await this.baseClient.find<T>(options);
     } catch (error) {
-      auditor.add(savedObjectReadEvent, { action: 'saved_object_find', objects: [], error });
+      auditor.add(savedObjectReadEvent, {
+        action: 'saved_object_find',
+        objects: [],
+        error,
+      });
       throw error;
     }
 
@@ -424,7 +431,6 @@ export class SecureSavedObjectsClientWrapper implements SavedObjectsClientContra
         spaceIds,
         args
       );
-      return result;
     } else {
       const missingPrivileges = this.getMissingPrivileges(privileges);
       this.auditLogger.savedObjectsAuthorizationFailure(

@@ -10,6 +10,12 @@ import { securityAuditLoggerMock } from '../audit/index.mock';
 import { savedObjectsClientMock } from '../../../../../src/core/server/mocks';
 import { SavedObjectsClientContract } from 'kibana/server';
 import { SavedObjectActions } from '../authorization/actions/saved_object';
+import {
+  savedObjectCreateEvent,
+  savedObjectDeleteEvent,
+  savedObjectReadEvent,
+  savedObjectUpdateEvent,
+} from './audit_events';
 
 let clientOpts: ReturnType<typeof createSecureSavedObjectsClientWrapperOptions>;
 let client: SecureSavedObjectsClientWrapper;
@@ -31,6 +37,10 @@ const createSecureSavedObjectsClientWrapperOptions = () => {
     isNotFoundError: jest.fn().mockReturnValue(false),
   } as unknown) as jest.Mocked<SavedObjectsClientContract['errors']>;
   const getSpacesService = jest.fn().mockReturnValue(true);
+  const auditor = {
+    add: jest.fn(),
+  };
+  const getScopedAuditor = jest.fn().mockReturnValue(auditor);
 
   return {
     actions,
@@ -38,6 +48,7 @@ const createSecureSavedObjectsClientWrapperOptions = () => {
     checkSavedObjectsPrivilegesAsCurrentUser: jest.fn(),
     errors,
     getSpacesService,
+    getScopedAuditor,
     auditLogger: securityAuditLoggerMock.create(),
     forbiddenError,
     generalError,
@@ -169,6 +180,11 @@ const expectObjectNamespaceFiltering = async (
     'login:',
     namespaces
   );
+};
+
+const expectAuditEvent = (eventDecorator: Function, args: any) => {
+  const auditor = clientOpts.getScopedAuditor();
+  expect(auditor.add).toHaveBeenCalledWith(eventDecorator, args);
 };
 
 const expectObjectsNamespaceFiltering = async (fn: Function, args: Record<string, any>) => {
@@ -384,6 +400,25 @@ describe('#addToNamespaces', () => {
     // this operation is unique because it requires two privilege checks before it executes
     await expectObjectNamespaceFiltering(client.addToNamespaces, { type, id, namespaces }, 2);
   });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = Symbol();
+    clientOpts.baseClient.addToNamespaces.mockReturnValue(apiCallReturnValue as any);
+    await client.addToNamespaces(type, id, namespaces);
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_add_to_namespace',
+      objects: [{ type, id, namespaces }],
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    await expectGeneralError(client.addToNamespaces, { type, id, namespaces });
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_add_to_namespace',
+      error: clientOpts.generalError,
+      objects: [{ type, id, namespaces }],
+    });
+  });
 });
 
 describe('#bulkCreate', () => {
@@ -420,6 +455,27 @@ describe('#bulkCreate', () => {
     const objects = [obj1, obj2];
     await expectObjectsNamespaceFiltering(client.bulkCreate, { objects, options });
   });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = { saved_objects: [], foo: 'bar' };
+    clientOpts.baseClient.bulkCreate.mockReturnValue(apiCallReturnValue as any);
+    const objects = [obj1, obj2];
+    await expectSuccess(client.bulkCreate, { objects, options });
+    expectAuditEvent(savedObjectCreateEvent, {
+      action: 'saved_object_bulk_create',
+      objects: apiCallReturnValue.saved_objects,
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    const objects = [obj1, obj2];
+    await expectForbiddenError(client.bulkCreate, { objects, options });
+    expectAuditEvent(savedObjectCreateEvent, {
+      action: 'saved_object_bulk_create',
+      error: clientOpts.forbiddenError,
+      objects,
+    });
+  });
 });
 
 describe('#bulkGet', () => {
@@ -454,6 +510,27 @@ describe('#bulkGet', () => {
   test(`filters namespaces that the user doesn't have access to`, async () => {
     const objects = [obj1, obj2];
     await expectObjectsNamespaceFiltering(client.bulkGet, { objects, options });
+  });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = { saved_objects: [], foo: 'bar' };
+    clientOpts.baseClient.bulkGet.mockReturnValue(apiCallReturnValue as any);
+    const objects = [obj1, obj2];
+    await expectSuccess(client.bulkGet, { objects, options });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_bulk_get',
+      objects,
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    const objects = [obj1, obj2];
+    await expectForbiddenError(client.bulkGet, { objects, options });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_bulk_get',
+      error: clientOpts.forbiddenError,
+      objects,
+    });
   });
 });
 
@@ -490,6 +567,27 @@ describe('#bulkUpdate', () => {
     const objects = [obj1, obj2];
     await expectObjectsNamespaceFiltering(client.bulkUpdate, { objects, options });
   });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = { saved_objects: [], foo: 'bar' };
+    clientOpts.baseClient.bulkUpdate.mockReturnValue(apiCallReturnValue as any);
+    const objects = [obj1, obj2];
+    await expectSuccess(client.bulkUpdate, { objects, options });
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_bulk_update',
+      objects,
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    const objects = [obj1, obj2];
+    await expectForbiddenError(client.bulkUpdate, { objects, options });
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_bulk_update',
+      error: clientOpts.forbiddenError,
+      objects,
+    });
+  });
 });
 
 describe('#create', () => {
@@ -520,6 +618,26 @@ describe('#create', () => {
   test(`filters namespaces that the user doesn't have access to`, async () => {
     await expectObjectNamespaceFiltering(client.create, { type, attributes, options });
   });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = Symbol();
+    clientOpts.baseClient.create.mockResolvedValue(apiCallReturnValue as any);
+    await expectSuccess(client.create, { type, attributes, options });
+
+    expectAuditEvent(savedObjectCreateEvent, {
+      action: 'saved_object_create',
+      objects: [apiCallReturnValue],
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    await expectPrivilegeCheck(client.create, { type, attributes, options });
+    expectAuditEvent(savedObjectCreateEvent, {
+      action: 'saved_object_create',
+      error: clientOpts.forbiddenError,
+      objects: [{ type, id: undefined }],
+    });
+  });
 });
 
 describe('#delete', () => {
@@ -546,6 +664,25 @@ describe('#delete', () => {
   test(`checks privileges for user, actions, and namespace`, async () => {
     await expectPrivilegeCheck(client.delete, { type, id, options });
   });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = Symbol();
+    clientOpts.baseClient.delete.mockReturnValue(apiCallReturnValue as any);
+    await expectSuccess(client.delete, { type, id, options });
+    expectAuditEvent(savedObjectDeleteEvent, {
+      action: 'saved_object_delete',
+      objects: [{ type, id }],
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    await expectGeneralError(client.delete, { type, id });
+    expectAuditEvent(savedObjectDeleteEvent, {
+      action: 'saved_object_delete',
+      error: clientOpts.generalError,
+      objects: [{ type, id }],
+    });
+  });
 });
 
 describe('#find', () => {
@@ -554,11 +691,21 @@ describe('#find', () => {
 
   test(`throws decorated GeneralError when hasPrivileges rejects promise`, async () => {
     await expectGeneralError(client.find, { type: type1 });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_find',
+      error: clientOpts.generalError,
+      objects: [],
+    });
   });
 
   test(`throws decorated ForbiddenError when type's singular and unauthorized`, async () => {
     const options = Object.freeze({ type: type1, namespaces: ['some-ns'] });
     await expectForbiddenError(client.find, { options });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_find',
+      error: clientOpts.forbiddenError,
+      objects: [],
+    });
   });
 
   test(`throws decorated ForbiddenError when type's an array and unauthorized`, async () => {
@@ -600,6 +747,26 @@ describe('#find', () => {
     const options = Object.freeze({ type: [type1, type2], namespaces: ['some-ns'] });
     await expectObjectsNamespaceFiltering(client.find, { options });
   });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = { saved_objects: [], foo: 'bar' };
+    clientOpts.baseClient.find.mockReturnValue(apiCallReturnValue as any);
+    const options = Object.freeze({ type: type1, namespaces: ['some-ns'] });
+    await expectSuccess(client.find, { options });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_find',
+      objects: apiCallReturnValue.saved_objects,
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    await expectGeneralError(client.find, { type: type1 });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_find',
+      error: clientOpts.generalError,
+      objects: [],
+    });
+  });
 });
 
 describe('#get', () => {
@@ -629,6 +796,25 @@ describe('#get', () => {
 
   test(`filters namespaces that the user doesn't have access to`, async () => {
     await expectObjectNamespaceFiltering(client.get, { type, id, options });
+  });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = Symbol();
+    clientOpts.baseClient.get.mockReturnValue(apiCallReturnValue as any);
+    await expectSuccess(client.get, { type, id, options });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_get',
+      objects: [{ type, id }],
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    await expectForbiddenError(client.get, { type, id, options });
+    expectAuditEvent(savedObjectReadEvent, {
+      action: 'saved_object_get',
+      error: clientOpts.forbiddenError,
+      objects: [{ type, id }],
+    });
   });
 });
 
@@ -701,6 +887,25 @@ describe('#deleteFromNamespaces', () => {
   test(`filters namespaces that the user doesn't have access to`, async () => {
     await expectObjectNamespaceFiltering(client.deleteFromNamespaces, { type, id, namespaces });
   });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = Symbol();
+    clientOpts.baseClient.deleteFromNamespaces.mockReturnValue(apiCallReturnValue as any);
+    await client.deleteFromNamespaces(type, id, namespaces);
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_delete_from_namespaces',
+      objects: [{ type, id, namespaces }],
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    await expectGeneralError(client.deleteFromNamespaces, { type, id, namespaces });
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_delete_from_namespaces',
+      error: clientOpts.generalError,
+      objects: [{ type, id, namespaces }],
+    });
+  });
 });
 
 describe('#update', () => {
@@ -731,6 +936,25 @@ describe('#update', () => {
 
   test(`filters namespaces that the user doesn't have access to`, async () => {
     await expectObjectNamespaceFiltering(client.update, { type, id, attributes, options });
+  });
+
+  test(`adds audit event when successful`, async () => {
+    const apiCallReturnValue = Symbol();
+    clientOpts.baseClient.update.mockReturnValue(apiCallReturnValue as any);
+    await expectSuccess(client.update, { type, id, attributes, options });
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_update',
+      objects: [{ type, id }],
+    });
+  });
+
+  test(`adds audit event when not successful`, async () => {
+    await expectForbiddenError(client.update, { type, id, attributes, options });
+    expectAuditEvent(savedObjectUpdateEvent, {
+      action: 'saved_object_update',
+      error: clientOpts.forbiddenError,
+      objects: [{ type, id }],
+    });
   });
 });
 
