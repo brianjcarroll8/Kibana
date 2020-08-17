@@ -41,6 +41,24 @@ export class HomeServerPlugin implements Plugin<HomeServerPluginSetup, HomeServe
   public setup(core: CoreSetup, plugins: HomeServerPluginSetupDependencies): HomeServerPluginSetup {
     core.capabilities.registerProvider(capabilitiesProvider);
     core.savedObjects.registerType(sampleDataTelemetry);
+
+    // const router = core.httpSetup.createRouter();
+    // // creates a route handler for GET request on 'my-app/path/{id}' path
+    // router.get(
+    //   {
+    //     path: '/app/kibana/overview',
+    //     // defines a validation schema for a named segment of the route path
+    //     validate: false,
+    //   },
+    //   // function to execute to create a responses
+    //   async (context, request, response) => {
+    //     const data = await context.findObject(request.params.id);
+    //     // creates a command to respond with 'not found' error
+    //     if (!data) return response.notFound();
+    //     // creates a command to send found data to the client
+    //     return response.ok(data);
+    //   }
+    // );
     return {
       tutorials: { ...this.tutorialsRegistry.setup(core) },
       sampleData: { ...this.sampleDataRegistry.setup(core, plugins.usageCollection) },
