@@ -31,7 +31,6 @@ const pathizeTwo = (x) => {
   return [a, b].reduce(pathize, '');
 };
 const pluck = (x) => (obj) => obj[x];
-const dropPrefix = (prefix) => (x) => x.replace(prefix, '');
 const regex = (reg) => (x) => new RegExp(`(${x}${reg}`, 'g');
 const capture = regex('.+) {1}(.+)');
 const possiblesByLoop = (re) => (assignments) => {
@@ -41,32 +40,18 @@ const possiblesByLoop = (re) => (assignments) => {
 
   return res;
 };
-const trim = (dropF) => (x) => [x].map(dropF)[0];
 const index = (i) => (xs) => xs[i];
 const buildRe = (x) => [x].map(pathizeTwo).map(capture)[0];
-const parts = (x) => [x]
-  .map(parse)
-  .map(pluck('dir'))
-  .map(splitAndDropBlanks)[0];
+const parts = (x) => [x].map(parse).map(pluck('dir')).map(splitAndDropBlanks)[0];
 const team = (xs) => xs.map(split(' ')).map(index(1))[0];
 
-export const rootMatch = (rootCount) => (assignments) => ({
-  originalFilePath,
-  COVERAGE_INGESTION_KIBANA_ROOT,
-}) => {
-  const dropKibRoot = dropPrefix(COVERAGE_INGESTION_KIBANA_ROOT);
-  const trimBy = trim(dropKibRoot);
-  const trimmed = trimBy(originalFilePath);
-  const queryRe = buildRe(trimmed);
-  const queryParts = parts(trimmed);
+export const rootMatch = (rootCount) => (assignments) => (coveredFilePath) => {
+  const queryRe = buildRe(coveredFilePath);
+  const queryParts = parts(coveredFilePath);
   const maybes = possiblesByLoop(queryRe)(assignments);
   const includesRootParts = (x) => x.includes(queryParts[rootCount]);
 
-  const name = maybes.length === 1
-    ? team(maybes)
-    : team(maybes.filter(includesRootParts));
+  const name = maybes.length === 1 ? team(maybes) : team(maybes.filter(includesRootParts));
 
-  return name
-    ? name
-    : 'unknown';
+  return name ? name : 'unknown';
 };

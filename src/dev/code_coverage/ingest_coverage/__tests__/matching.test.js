@@ -21,49 +21,31 @@ import expect from '@kbn/expect';
 import { rootMatch } from '../matching';
 
 describe(`Matching fns`, () => {
-  const COVERAGE_INGESTION_KIBANA_ROOT =
-    '/var/lib/jenkins/workspace/elastic+kibana+qa-research/kibana';
-
   describe(`rootMatch`, () => {
+    const rootMatch2 = rootMatch(2)(assignments());
     it(`should be reporting`, () => {
-      const obj = {
-        COVERAGE_INGESTION_KIBANA_ROOT,
-        originalFilePath:
-          '/var/lib/jenkins/workspace/elastic+kibana+qa-research/kibana/x-pack/plugins/reporting/server/browsers/extract/unzip.js',
-      };
-      const actual = rootMatch(2)(assignments())(obj);
+      const actual = rootMatch2('x-pack/plugins/reporting/server/browsers/extract/unzip.js');
       expect(actual).to.be('kibana-reporting');
     });
     it(`should be es-ui`, () => {
-      const obj = {
-        COVERAGE_INGESTION_KIBANA_ROOT,
-        originalFilePath:
-          '/var/lib/jenkins/workspace/elastic+kibana+qa-research/kibana/src/plugins/console/public/application/models/legacy_core_editor/legacy_core_editor.test.mocks.ts',
-      };
-      const actual = rootMatch(2)(assignments())(obj);
+      const actual = rootMatch2(
+        'src/plugins/console/public/application/models/legacy_core_editor/legacy_core_editor.test.mocks.ts'
+      );
       expect(actual).to.be('es-ui');
     });
     it(`should be kibana-design`, () => {
-      const obj = {
-        COVERAGE_INGESTION_KIBANA_ROOT,
-        originalFilePath:
-          '/var/lib/jenkins/workspace/elastic+kibana+qa-research/kibana/packages/kbn-ui-framework/src/components/form/text_area/text_area.js',
-      };
-      const actual = rootMatch(2)(assignments())(obj);
+      const actual = rootMatch2(
+        'packages/kbn-ui-framework/src/components/form/text_area/text_area.js'
+      );
       expect(actual).to.be('kibana-design');
     });
     it(`should be kibana-platform`, () => {
-      const obj = {
-        COVERAGE_INGESTION_KIBANA_ROOT,
-        originalFilePath:
-          '/var/lib/jenkins/workspace/elastic+kibana+qa-research/kibana/src/plugins/saved_objects_management/public/lib/import_legacy_file.ts',
-      };
-      const actual = rootMatch(2)(assignments())(obj);
+      const actual = rootMatch2(
+        'src/plugins/saved_objects_management/public/lib/import_legacy_file.ts'
+      );
       expect(actual).to.be('kibana-platform');
     });
-    describe(`with globbing`, () => {
-
-    });
+    describe(`with globbing`, () => {});
   });
 });
 
