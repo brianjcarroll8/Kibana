@@ -18,7 +18,8 @@
  */
 
 import { parse } from 'path';
-import { pipe } from './utils';
+import { pipe, always, id } from './utils';
+import { left, right } from './either';
 
 const split = (sep) => (x) => x.split(sep);
 const splitF = split('/');
@@ -44,14 +45,42 @@ const index = (i) => (xs) => xs[i];
 const buildRe = (x) => [x].map(pathizeTwo).map(capture)[0];
 const parts = (x) => [x].map(parse).map(pluck('dir')).map(splitAndDropBlanks)[0];
 const team = (xs) => xs.map(split(' ')).map(index(1))[0];
+const captureAfterSpace = x => new RegExp(`${x} (.+)`);
 
-export const rootMatch = (rootCount) => (assignments) => (coveredFilePath) => {
+export const exactMatch = coveredFilePath => assignments => {
+  const testAssignments = test(assignments);
+
+  const bits = parts(coveredFilePath);
+  const dir = bits.length > 0
+    ? right(bits)
+    : left(null);//?
+
+  return dir
+    .map(xs => xs.reduce(pathize, ''))
+    .map(captureAfterSpace)
+    .map(testAssignments)
+    .map(pluckTeam)
+    .fold(always('unknown'), id);
+
+};
+function pluckTeam (arrayLike) {
+  return arrayLike[1];
+}
+function test (str) {
+  return (re) => str.match(re);
+}
+
+export const rootMatch = (rootCount) =>  (assignments) => (coveredFilePath) => {
   const queryRe = buildRe(coveredFilePath);
   const queryParts = parts(coveredFilePath);
   const maybes = possiblesByLoop(queryRe)(assignments);
   const includesRootParts = (x) => x.includes(queryParts[rootCount]);
 
-  const name = maybes.length === 1 ? team(maybes) : team(maybes.filter(includesRootParts));
+  const name = maybes.length === 1
+    ? team(maybes)
+    : team(maybes.filter(includesRootParts));
 
-  return name ? name : 'unknown';
+  return name
+    ? name
+    : 'unknown';
 };

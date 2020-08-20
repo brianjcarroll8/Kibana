@@ -18,7 +18,7 @@
  */
 
 import expect from '@kbn/expect';
-import { rootMatch } from '../matching';
+import { exactMatch, rootMatch } from '../matching';
 
 describe(`Matching fns`, () => {
   describe(`rootMatch`, () => {
@@ -45,7 +45,17 @@ describe(`Matching fns`, () => {
       );
       expect(actual).to.be('kibana-platform');
     });
-    describe(`with globbing`, () => {});
+
+  });
+  describe(`exactMatch`, () => {
+    it(`should be kibana-platform`, () => {
+      const actual = exactMatch('src/legacy/core_plugins/elasticsearch/index.js')(assignments());
+      expect(actual).to.be('kibana-platform');
+    });
+    it(`should be unknown`, () => {
+      const actual = exactMatch('tre')(assignments());
+      expect(actual).to.be('unknown');
+    });
   });
 });
 
