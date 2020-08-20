@@ -84,3 +84,9 @@ export const rootMatch = (rootCount) =>  (assignments) => (coveredFilePath) => {
     ? name
     : 'unknown';
 };
+
+export const globMatch = assignments => path => {};
+
+export const isGlob = x =>
+  /\\(.)|(^!|\*|[\].+)]\?|\[[^\\\]]+\]|\{[^\\}]+\}|\(\?[:!=][^\\)]+\)|\([^|]+\|[^\\)]+\))/
+    .test(x);

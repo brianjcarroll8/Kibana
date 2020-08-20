@@ -18,9 +18,20 @@
  */
 
 import expect from '@kbn/expect';
-import { exactMatch, rootMatch } from '../matching';
+import { exactMatch, rootMatch, isGlob, globMatch } from '../matching';
 
 describe(`Matching fns`, () => {
+  describe(`isGlob`, () => {
+    it(`should find a file glob`, () => {
+      expect(isGlob('/a/b/*.js')).to.be(true)
+    });
+    it(`should find a dir glob`, () => {
+      expect(isGlob('/a/b/*eslint*')).to.be(true)
+    });
+    it(`should find a subdir file glob`, () => {
+      expect(isGlob('/a/b/**/*.js')).to.be(true)
+    });
+  });
   describe(`rootMatch`, () => {
     const rootMatch2 = rootMatch(2)(assignments());
     it(`should be reporting`, () => {
