@@ -70,9 +70,9 @@ function test (str) {
   return (re) => str.match(re);
 }
 
-export const rootMatch = (rootCount) =>  (assignments) => (coveredFilePath) => {
-  const queryRe = buildRe(coveredFilePath);
-  const queryParts = parts(coveredFilePath);
+export const rootMatch = (rootCount) => (assignments) => (path) => {
+  const queryRe = buildRe(path);
+  const queryParts = parts(path);
   const maybes = possiblesByLoop(queryRe)(assignments);
   const includesRootParts = (x) => x.includes(queryParts[rootCount]);
 
