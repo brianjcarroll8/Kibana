@@ -19,7 +19,9 @@ import {
   SavedObjectsUpdateOptions,
   SavedObjectsUpdateResponse,
   SavedObjectsAddToNamespacesOptions,
+  SavedObjectsAddToNamespacesResponse,
   SavedObjectsDeleteFromNamespacesOptions,
+  SavedObjectsDeleteFromNamespacesResponse,
   Auditor,
 } from '../../../../../src/core/server';
 import { SecurityAuditLogger } from '../audit';
@@ -300,7 +302,7 @@ export class SecureSavedObjectsClientWrapper implements SavedObjectsClientContra
   ) {
     const auditor = await this.getScopedAuditor();
 
-    let response: {};
+    let response: SavedObjectsAddToNamespacesResponse;
     try {
       const args = { type, id, namespaces, options };
       const { namespace } = options;
@@ -339,7 +341,7 @@ export class SecureSavedObjectsClientWrapper implements SavedObjectsClientContra
     options: SavedObjectsDeleteFromNamespacesOptions = {}
   ) {
     const auditor = await this.getScopedAuditor();
-    let response: {};
+    let response: SavedObjectsDeleteFromNamespacesResponse;
     try {
       // To un-share an object, the user must have the "delete" permission in each of the target namespaces.
       const args = { type, id, namespaces, options };
