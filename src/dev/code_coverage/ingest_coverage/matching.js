@@ -43,6 +43,7 @@ const possiblesByLoop = (re) => (assignments) => {
 };
 const index = (i) => (xs) => xs[i];
 const buildRe = (x) => [x].map(pathizeTwo).map(capture)[0];
+// const parts = (x) => [x].map(parse).map(pluck('dir')).map(splitAndDropBlanks)[0];
 const parts = (x) => [x].map(parse).map(pluck('dir')).map(splitAndDropBlanks)[0];
 const team = (xs) => xs.map(split(' ')).map(index(1))[0];
 const captureAfterSpace = x => new RegExp(`${x} (.+)`);
@@ -53,7 +54,7 @@ export const exactMatch = coveredFilePath => assignments => {
   const bits = parts(coveredFilePath);
   const dir = bits.length > 0
     ? right(bits)
-    : left(null);//?
+    : left(null);
 
   return dir
     .map(xs => xs.reduce(pathize, ''))
@@ -85,7 +86,34 @@ export const rootMatch = (rootCount) => (assignments) => (path) => {
     : 'unknown';
 };
 
-export const globMatch = assignments => path => {};
+const unGlob = x => x.replace(/\*/g, '');
+const isDirGlob = x => /\*(?!\*)/.test(x);
+const isSubDirGlob = x => /\*{2}/.test(x);
+const dropSubDirGlob = x => !x.includes('**');
+const rootsCount = x => parts(x).length
+export const globMatch = assignments => path => {
+
+  const count = rootsCount(path)//?
+  // const noSub = isSubDirGlob(path) ? right(path) : left(null);
+  // noSub
+  //   .map(parts)
+  //   .map(x => x.filter(dropSubDirGlob))//?
+
+  const noglobPath = unGlob(path);//?
+  const noGlobList = unGlob(assignments);
+
+  let res;//?
+
+  if (count ===1) {
+    res = rootMatch(2)(noGlobList)(noglobPath)//?
+  }
+
+  if (count > 1) {
+    res = rootMatch(3)(noGlobList)(noglobPath)//?
+  }
+
+  return res//?
+};
 
 export const isGlob = x =>
   /\\(.)|(^!|\*|[\].+)]\?|\[[^\\\]]+\]|\{[^\\}]+\}|\(\?[:!=][^\\)]+\)|\([^|]+\|[^\\)]+\))/

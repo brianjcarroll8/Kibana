@@ -56,6 +56,11 @@ describe(`Matching fns`, () => {
       );
       expect(actual).to.be('kibana-platform');
     });
+    it(`should be ent-search-design`, () => {
+      const path = '/x-pack/plugins/enterprise_search/blah/a.scss'
+      const actual = rootMatch(2)(assignments())(path)
+      expect(actual).to.be('ent-search-design')
+    })
 
   });
   describe(`exactMatch`, () => {
@@ -68,6 +73,23 @@ describe(`Matching fns`, () => {
       expect(actual).to.be('unknown');
     });
   });
+  // describe.only(`globMatch`, () => {
+  //   it(`should return kibana-operations`, () => {
+  //     const path = '/packages/*eslint*/'
+  //     const actual = globMatch(assignments())(path)//?
+  //     expect(actual).to.be('kibana-operations')
+  //   });
+  //   it(`should also return kibana-operations`, () => {
+  //     const path = '/packages/*babel*/'
+  //     const actual = globMatch(assignments())(path)//?
+  //     expect(actual).to.be('kibana-operations')
+  //   })
+  //   it(`should return ent-search-design`, () => {
+  //     const path = '/x-pack/plugins/enterprise_search/blah/a.scss'
+  //     const actual = rootMatch(2)(assignments())(path)//?
+  //     expect(actual).to.be('ent-search-design')
+  //   })
+  // });
 });
 
 function assignments() {

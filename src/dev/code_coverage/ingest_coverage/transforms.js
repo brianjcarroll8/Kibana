@@ -18,9 +18,9 @@
  */
 
 import * as Either from './either';
-import { fromNullable } from './maybe';
+import { fromNullable, just } from './maybe';
 import { always, id, noop } from './utils';
-import { rootMatch } from './matching';
+import { exactMatch, rootMatch, isGlob, globMatch } from './matching';
 
 const maybeTotal = (x) => (x === 'total' ? Either.left(x) : Either.right(x));
 
@@ -98,10 +98,6 @@ export const coveredFilePath = (obj) => {
     .fold(withoutCoveredFilePath, (coveredFilePath) => ({ ...obj, coveredFilePath }));
 };
 
-// Check for:
-// DONE-ISH 1. Exact match
-// DONE-ISH 2. Partial match...root(s) match
-// 3. Glob match
 export const teamAssignment = (teamAssignments) => (obj) => {
   const name = rootMatch(2)(teamAssignments)(obj);
 

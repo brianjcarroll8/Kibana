@@ -18,7 +18,7 @@
  */
 
 import expect from '@kbn/expect';
-import { ciRunUrl, coveredFilePath, itemizeVcs, prokPrevious } from '../transforms';
+import { ciRunUrl, coveredFilePath, itemizeVcs, prokPrevious, teamAssignment } from '../transforms';
 
 describe(`Transform fn`, () => {
   describe(`ciRunUrl`, () => {
@@ -81,6 +81,11 @@ describe(`Transform fn`, () => {
         'vcsUrl',
         `https://github.com/elastic/kibana/commit/${vcsInfo[1]}`
       );
+    });
+  });
+  describe(`teamAssignment`, () => {
+    it(`should be a fn`, () => {
+      expect(typeof teamAssignment).to.be('function')
     });
   });
 });
