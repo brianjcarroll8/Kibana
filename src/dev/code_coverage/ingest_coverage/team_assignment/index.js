@@ -18,9 +18,10 @@
  */
 
 import { run, rules, createFlagError } from '@kbn/dev-utils';
-import { gen } from './generate_assignments';
+import { generatePatterns } from './generate_patterns';
 import { pipe } from '../utils';
 import { flush } from './flush';
+import { enumeratePatterns } from './enumerate_patterns';
 
 const flags = {
   string: ['dest'],
@@ -34,9 +35,14 @@ export const generateTeamAssignments = () => {
     ({ flags, log }) => {
       if (flags.dest === '') throw createFlagError('please provide a single --dest flag');
 
-      const flushTo = flush(flags.dest)(log);
+      const patterns = generatePatterns(rules)
 
-      pipe(gen, flushTo)(rules);
+      const enumerated = enumeratePatterns(patterns);
+      enumerated.forEach(x => log.info(x))
+
+
+      // const flushTo = flush(flags.dest)(log);
+      // pipe(gen, flushTo)(rules);
     },
     {
       description: `
