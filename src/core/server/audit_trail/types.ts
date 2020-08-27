@@ -78,7 +78,7 @@ export interface AuditEvent {
       };
     };
     response?: {
-      status_code?: number;
+      status_code: number;
     };
   };
   url?: {
