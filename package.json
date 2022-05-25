@@ -391,7 +391,7 @@
     "fp-ts": "^2.3.1",
     "geckodriver": "^1.20.0",
     "getopts": "^2.2.4",
-    "grunt": "1.0.4",
+    "grunt": "1.5.3",
     "grunt-available-tasks": "^0.6.3",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-watch": "^1.1.0",
